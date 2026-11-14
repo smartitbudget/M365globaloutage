@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="How the November 2026 Microsoft 365 outage hit Exchange, Teams, SharePoint, Copilot and Defender XDR, with architecture diagrams, status links and a post-outage checklist.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Mahendran Varadharajan | IT Manager">
+<meta property="og:title" content="Microsoft 365 Global Outage: Architecture, Impact and Recovery Steps">
+<meta property="og:description" content="Diagrams of the affected components, a timeline, live status links and what every company should do after the outage.">
+<meta property="og:image" content="https://smartitbudget.github.io/M365outage/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://smartitbudget.github.io/M365outage/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Microsoft 365 Global Outage: Architecture, Impact and Recovery Steps">
+<meta name="twitter:description" content="Diagrams, timeline, status links and a post-outage checklist.">
+<meta name="twitter:image" content="https://smartitbudget.github.io/M365outage/og-image.png">
+<link rel="canonical" href="https://smartitbudget.github.io/M365outage/">
+<title>Inside the Microsoft 365 Global Outage, November 2026</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1b1f2a;--mut:#5b6475;--ac:#0b5fff;--bd:#dde1ea;--bad:#d83b3b;--ok:#1f9d63;--warn:#e29a12;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10131a;--card:#181c26;--tx:#e8ebf2;--mut:#9aa3b5;--ac:#6ea0ff;--bd:#2a3040}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+main{max-width:860px;margin:0 auto;padding:24px 18px 60px}
+h1{font-size:2rem;line-height:1.2;margin:.2em 0}h2{margin-top:2em}
+.meta{color:var(--mut);font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;margin:16px 0}
+.scroll{overflow-x:auto}svg{max-width:100%;height:auto}
+svg text{fill:var(--tx);font-family:system-ui,sans-serif}
+.box{fill:var(--card);stroke:var(--bd);stroke-width:1.5}.hit{fill:none;stroke:var(--bad);stroke-width:2.5}
+.ok{stroke:var(--ok)}.lbl{fill:var(--mut)!important}
+a{color:var(--ac)}
+.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;padding:0;list-style:none}
+.links a{display:block;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);text-decoration:none;font-weight:600}
+.links small{display:block;color:var(--mut);font-weight:400}
+.hire{border:2px solid var(--ac)}
+.badge{display:inline-block;background:var(--ok);color:#fff;border-radius:99px;padding:2px 12px;font-size:.85rem;font-weight:700}
+.btn{display:inline-block;margin:6px 8px 0 0;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700;border:1px solid var(--ac);color:var(--ac)}
+.btn.p{background:var(--ac);color:#fff}
+.btn.li{background:#0a66c2;border-color:#0a66c2;color:#fff;box-shadow:0 0 0 3px rgba(10,102,194,.3)}
+.stats{display:flex;flex-wrap:wrap;gap:10px}.stats div{flex:1 1 90px;text-align:center;border:1px solid var(--bd);border-radius:10px;padding:8px}
+.stats b{display:block;font-size:1.3rem;color:var(--ac)}
+.share{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.share a,.share button{font:600 .9rem system-ui,sans-serif;padding:9px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx);text-decoration:none;cursor:pointer}.share .in{background:#0a66c2;color:#fff;border-color:#0a66c2}.share a:hover,.share button:hover{border-color:var(--ac)}#cs{font-size:.85rem;color:var(--ok)}
+</style></head><body><main>
+<p class="meta">Updated Saturday, 14 November 2026 · Sources: BleepingComputer, Petri, CNBC, TechRadar, Microsoft 365 Status</p>
+<h1>Microsoft 365 Global Outage: What Broke and How It Fits Together</h1>
+<p>On Thursday 12 November 2026, around 1pm ET, Microsoft 365 services began failing worldwide. Reports reached at least 74 countries, and recovery ran into Friday. Microsoft apologised and repeatedly stated there was no indication of a cyberattack.</p>
+
+<div class="stats">
+<div><b>~1pm ET</b>Start, 12 Nov</div><div><b>74+</b>Countries hit</div><div><b>~24h</b>To visible recovery</div><div><b>48h</b>Extended email timeout</div></div>
+
+<h2>Architecture and components affected</h2>
+<p>Microsoft advisory MO1550821 listed Exchange Online, Teams, SharePoint Online, Microsoft 365 Copilot and Defender XDR as unreachable. Outlook, OneDrive and Azure also drew heavy Downdetector complaints. The diagram below is an <b>illustrative</b> view of how these services depend on shared authentication and routing; Microsoft has not published an official topology.</p>
+<div class="card scroll"><svg viewBox="0 0 720 400" role="img" aria-label="Architecture diagram of affected Microsoft 365 components">
+<rect class="box" x="20" y="10" width="680" height="55" rx="8"/><text x="360" y="44" text-anchor="middle" font-weight="700">Users: Outlook · Teams · Browser · Mobile (74+ countries)</text>
+<path d="M360 65V95" stroke="#888" stroke-width="2"/>
+<rect class="box hit" x="150" y="95" width="420" height="60" rx="8"/><text x="360" y="120" text-anchor="middle" font-weight="700">Front door: Authentication &amp; Routing</text><text x="360" y="141" text-anchor="middle" class="lbl" font-size="13">Patched upstream by Microsoft</text>
+<path d="M360 155V185M120 185H600M120 185V205M290 185V205M440 185V205M600 185V205" stroke="#888" stroke-width="2" fill="none"/>
+<g font-size="13" text-anchor="middle" font-weight="600">
+<rect class="box hit" x="30" y="205" width="180" height="55" rx="8"/><text x="120" y="228">Exchange Online</text><text x="120" y="246" class="lbl" font-weight="400">Mail flow, queues</text>
+<rect class="box hit" x="215" y="205" width="150" height="55" rx="8"/><text x="290" y="228">Teams</text><text x="290" y="246" class="lbl" font-weight="400">Chat, meetings</text>
+<rect class="box hit" x="370" y="205" width="150" height="55" rx="8"/><text x="445" y="228">SharePoint Online</text><text x="445" y="246" class="lbl" font-weight="400">Sites, files</text>
+<rect class="box hit" x="525" y="205" width="165" height="55" rx="8"/><text x="607" y="228">M365 Copilot</text><text x="607" y="246" class="lbl" font-weight="400">AI assistant</text></g>
+<path d="M360 260V285" stroke="#888" stroke-width="2"/>
+<rect class="box hit" x="150" y="285" width="420" height="50" rx="8"/><text x="360" y="315" text-anchor="middle" font-weight="700">Defender XDR · Security visibility</text>
+<text x="360" y="372" text-anchor="middle" class="lbl" font-size="13">Red outline = reported impacted · Backend process overload reportedly cascaded across servers</text></svg></div>
+
+<h2>Timeline of the incident</h2>
+<div class="card scroll"><svg viewBox="0 0 720 190" role="img" aria-label="Outage timeline">
+<line x1="40" y1="90" x2="680" y2="90" stroke="#888" stroke-width="3"/>
+<g text-anchor="middle" font-size="12">
+<circle cx="70" cy="90" r="9" fill="#d83b3b"/><text x="70" y="65" font-weight="700">12 Nov</text><text x="70" y="50" class="lbl">1pm ET</text><text x="70" y="120">Outage begins</text>
+<circle cx="200" cy="90" r="9" fill="#d83b3b"/><text x="200" y="65" font-weight="700">12 Nov</text><text x="200" y="50" class="lbl">6:57pm ET</text><text x="200" y="120">Limited recovery</text>
+<circle cx="340" cy="90" r="9" fill="#e29a12"/><text x="340" y="65" font-weight="700">13 Nov</text><text x="340" y="50" class="lbl">7:18am ET</text><text x="340" y="120">Europe recovering</text>
+<circle cx="480" cy="90" r="9" fill="#e29a12"/><text x="480" y="65" font-weight="700">13 Nov</text><text x="480" y="50" class="lbl">12:06pm ET</text><text x="480" y="120">Email queues near normal</text>
+<circle cx="620" cy="90" r="9" fill="#1f9d63"/><text x="620" y="65" font-weight="700">13 Nov</text><text x="620" y="50" class="lbl">1:09pm ET</text><text x="620" y="120">Apology + root cause</text></g></svg></div>
+
+<h2>Recovery pattern by service</h2>
+<p>Microsoft recovered in phases, region by region (Asia Pacific, then Europe), with mail delivery the last to normalise. The chart is a qualitative sketch of that sequence, not measured data.</p>
+<div class="card scroll"><svg viewBox="0 0 720 220" role="img" aria-label="Qualitative recovery order">
+<g font-size="13"><text x="10" y="35">Asia Pacific</text><text x="10" y="80">Europe</text><text x="10" y="125">Email delivery</text><text x="10" y="170">Full backlog</text></g>
+<rect x="130" y="20" width="520" height="22" rx="4" fill="#1f9d63" opacity=".85"/>
+<rect x="130" y="65" width="420" height="22" rx="4" fill="#e29a12" opacity=".85"/>
+<rect x="130" y="110" width="340" height="22" rx="4" fill="#e29a12" opacity=".85"/>
+<rect x="130" y="155" width="240" height="22" rx="4" fill="#d83b3b" opacity=".85"/>
+<text x="130" y="205" font-size="12" class="lbl">Longer bar = earlier or fuller recovery (illustrative)</text></svg></div>
+
+<h2>What Microsoft said</h2>
+<p>Microsoft pointed to an overwhelmed backend process that triggered cascading server failures, deployed an upstream authentication and routing configuration patch, and extended email timeouts to 48 hours so queued mail would still deliver. Organisations noticed knock-on effects: some public bodies warned that email and online forms were affected, and a luxury group delayed its earnings release.</p>
+
+<h2>Current status links</h2>
+<ul class="links">
+<li><a href="https://status.cloud.microsoft/" target="_blank" rel="noopener">Microsoft 365 Service Status<small>Official public status page</small></a></li>
+<li><a href="https://admin.microsoft.com/Adminportal/Home#/servicehealth" target="_blank" rel="noopener">Admin center: Service health<small>Look up MO1550821 and EX1550543</small></a></li>
+<li><a href="https://x.com/MSFT365Status" target="_blank" rel="noopener">@MSFT365Status on X<small>Live Microsoft updates</small></a></li>
+<li><a href="https://www.bleepingcomputer.com/news/microsoft/massive-microsoft-365-outage-disrupts-outlook-teams-copilot-worldwide/" target="_blank" rel="noopener">BleepingComputer coverage<small>Running update log</small></a></li>
+<li><a href="https://www.techradar.com/news/live/outlook-outage-nov-2026" target="_blank" rel="noopener">TechRadar live blog<small>Downdetector trends</small></a></li>
+<li><a href="https://petri.com/microsoft-deploys-patch-stabilize-microsoft-365-outage/" target="_blank" rel="noopener">Petri: patch and cause<small>Root-cause summary</small></a></li>
+</ul>
+
+<h2>What every company should do after the outage is fixed</h2>
+<p>Recovery on Microsoft’s side is not the end of the job. Work through these steps in order.</p>
+<div class="card"><b>First 24 hours: verify and stabilise</b>
+<ul><li><b>Confirm service health:</b> check the admin center advisories (MO1550821, EX1550543) show resolved, and test sign-in, mail, Teams calls and SharePoint access from several sites.</li>
+<li><b>Clear the mail backlog:</b> check that queued mail has delivered, ask users to re-send anything that bounced or looks missing, and warn them that some messages may arrive late or out of order.</li>
+<li><b>Check meetings and files:</b> re-issue missed Teams invites, and confirm recent SharePoint and OneDrive edits synced with no conflicts.</li>
+<li><b>Tell staff and customers:</b> send a short all-clear that explains known side effects and where to report problems.</li></ul></div>
+<div class="card"><b>Within a week: security and compliance review</b>
+<ul><li><b>Review the Defender XDR gap:</b> alerts and telemetry may be missing for the outage window. Re-run hunting queries and review sign-in logs for anything unusual during that time.</li>
+<li><b>Confirm identity health:</b> check that MFA, conditional access and Entra ID sync are working as before, and that nobody was pushed onto weaker emergency access.</li>
+<li><b>Look for opportunistic phishing:</b> attackers often exploit outages with fake “service restored, log in again” emails. Remind users to use only known links.</li>
+<li><b>Check regulatory duties:</b> if mail, records or security monitoring were unavailable, decide whether audit, retention or incident-reporting rules apply.</li></ul></div>
+<div class="card"><b>Within a month: learn and claim</b>
+<ul><li><b>Read Microsoft’s post-incident report</b> when it is published, and compare its root cause with your own impact log.</li>
+<li><b>Record business impact:</b> hours lost, missed deadlines and delayed transactions. You will need this for SLA service-credit claims and for management.</li>
+<li><b>Hold a blameless review:</b> what did we not know, who could not communicate, and what slowed our response?</li>
+<li><b>Update the continuity plan:</b> set up a non-Microsoft fallback channel for incident communication, keep a printed contact list, and agree which critical processes can run without M365.</li>
+<li><b>Test it:</b> run a tabletop exercise on a similar scenario within the quarter.</li></ul></div>
+
+<h2>Lessons for IT leaders</h2>
+<p>Shared identity and routing layers are single points of failure across otherwise independent apps. Keep out-of-band communications (a non-M365 channel), test your business continuity plan, and monitor admin-center advisories directly rather than relying on a status page that can itself go offline.</p>
+
+<h2>Share this article</h2>
+<div class="card share">
+<a class="in" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fsmartitbudget.github.io%2FM365outage%2F" target="_blank" rel="noopener">Share on LinkedIn</a>
+<a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fsmartitbudget.github.io%2FM365outage%2F&amp;text=Microsoft%20365%20global%20outage%3A%20architecture%2C%20impact%20and%20recovery%20steps" target="_blank" rel="noopener">X</a>
+<a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsmartitbudget.github.io%2FM365outage%2F" target="_blank" rel="noopener">Facebook</a>
+<a href="https://wa.me/?text=Microsoft%20365%20outage%20explained%20https%3A%2F%2Fsmartitbudget.github.io%2FM365outage%2F" target="_blank" rel="noopener">WhatsApp</a>
+<a href="https://t.me/share/url?url=https%3A%2F%2Fsmartitbudget.github.io%2FM365outage%2F&amp;text=Microsoft%20365%20outage%20explained" target="_blank" rel="noopener">Telegram</a>
+<a href="https://www.reddit.com/submit?url=https%3A%2F%2Fsmartitbudget.github.io%2FM365outage%2F&amp;title=Microsoft%20365%20global%20outage%20explained" target="_blank" rel="noopener">Reddit</a>
+<a href="mailto:?subject=Microsoft%20365%20global%20outage%20explained&amp;body=https%3A%2F%2Fsmartitbudget.github.io%2FM365outage%2F">Email</a>
+<button type="button" id="ns" hidden>More…</button>
+<button type="button" id="cp">Copy link</button><span id="cs" aria-live="polite"></span>
+</div>
+
+<h2>About the author: available to hire as IT Manager</h2>
+<div class="card hire">
+<span class="badge">Hire me as your IT Manager</span>
+<h3 style="margin:.4em 0 0">Mahendran Varadharajan</h3>
+<p style="margin:.2em 0"><b>IT Manager | Enterprise Applications, Infrastructure &amp; Digital Transformation</b> · Abu Dhabi, UAE</p>
+<p>20+ years leading ERP delivery, Microsoft 365 / Entra ID infrastructure, data centers and cybersecurity tooling. Currently heading a 45-person team at Royal Technology Solutions (IHC Group). Previously ADIB, ENEC, Transguard, Dragon Oil, INJAZAT and Oracle.</p>
+<div class="stats"><div><b>$12M</b>Annual IT cost cut</div><div><b>67%</b>TCO reduction</div><div><b>95%</b>Adoption</div><div><b>45</b>Team led</div></div>
+<p><a class="btn li" href="https://www.linkedin.com/in/mahendranvaradharajan/" target="_blank" rel="noopener">★ Connect on LinkedIn</a>
+<a class="btn p" href="https://www.scribd.com/document/1094326085/Mahendran-Varadharajan-Resume-pdf" target="_blank" rel="noopener">Open resume on Scribd</a>
+<a class="btn" href="mailto:mvitjob@gmail.com">Email</a></p>
+<p class="meta">Oracle ERP Cloud / EBS · ITIL V4 · TOGAF 9.2 · OCP · Six Sigma Green Belt · +971 56 475 3818</p>
+</div>
+</main>
+<script>
+(function(){var u='https://smartitbudget.github.io/M365outage/',t='Microsoft 365 global outage explained';
+var cp=document.getElementById('cp'),cs=document.getElementById('cs'),ns=document.getElementById('ns');
+function say(m){cs.textContent=m;setTimeout(function(){cs.textContent=''},2500)}
+cp.addEventListener('click',function(){try{navigator.clipboard.writeText(u).then(function(){say('Link copied')},function(){say('Copy failed')})}catch(e){say('Copy failed')}});
+if(navigator.share){ns.hidden=false;ns.addEventListener('click',function(){try{navigator.share({title:t,url:u}).catch(function(){})}catch(e){}})}
+})();
+</script>
+</body></html>
